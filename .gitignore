@@ -1,0 +1,13 @@
+converted/
+myndbond/
+nefnir/
+output/
+template_ofl/
+uppskriftir/
+
+scripts/parse_eaf.py
+scripts/count_words.py
+scripts/parse_tsv.py
+
+WordFrequencyDictionary-2.pdf
+.DS_Store
