@@ -87,8 +87,8 @@ class ElanTranscription():
         '''
         self._get_iteration_number()
         if os.path.isdir(self.output_dir):
-            number += 1
-            return _create_out_dir(number)
+            self._iteration_number += 1
+            return self._create_out_dir(self._iteration_number)
         else:
             os.mkdir(self.output_dir)
             info_name = 'elan-out.0{0}.info'.format(self._iteration_number)
@@ -140,30 +140,36 @@ class ElanTranscription():
         Iterates through directory and extracts annotation data from .eaf files.
         Saves annotation data in self.all_transcriptions variable
         '''
-        for root, dirs, files in os.walk(self.input_dir, topdown=False):
-            for file in files:
-                if not file.endswith('.eaf'): continue
-                wav_name = file.replace('.eaf', '.wav') # not used
-                file_path = os.path.join(root, file)
-                eafob = pympi.Elan.Eaf(file_path)
-                for tier in self.ADULT_TIERS:
-                    try:
-                        tier_data = eafob.get_annotation_data_for_tier(tier)
-                        for annotation in tier_data:
-                            output_data = self._annotation_data(annotation, tier, file)
-                            self.all_transcriptions.append(output_data)
-                            # print(annotation_data(tie r, file))
-                    except KeyError:
-                        continue
-                for tier in self.CHILD_TIERS:
-                    try:
-                        tier_data = eafob.get_annotation_data_for_tier(tier)
-                        for annotation in tier_data:
-                            output_data = self._annotation_data(annotation, tier, file)
-                            self.all_transcriptions.append(output_data)
-                            # print(output_data)
-                    except KeyError:
-                        continue
+        if os.path.isdir(self.input_dir):
+            for root, dirs, files in os.walk(self.input_dir, topdown=False):
+                for file in files:
+                    if not file.endswith('.eaf'): continue
+                    # wav_name = file.replace('.eaf', '.wav') # not used
+                    file_path = os.path.join(root, file)
+                    eafob = pympi.Elan.Eaf(file_path)
+                    for tier in self.ADULT_TIERS:
+                        try:
+                            tier_data = eafob.get_annotation_data_for_tier(tier)
+                            for annotation in tier_data:
+                                output_data = self._annotation_data(annotation,
+                                                                    tier, file)
+                                self.all_transcriptions.append(output_data)
+                                # print(annotation_data(tie r, file))
+                        except KeyError:
+                            continue
+                    for tier in self.CHILD_TIERS:
+                        try:
+                            tier_data = eafob.get_annotation_data_for_tier(tier)
+                            for annotation in tier_data:
+                                output_data = self._annotation_data(annotation,
+                                                                    tier, file)
+                                self.all_transcriptions.append(output_data)
+                                # print(output_data)
+                        except KeyError:
+                            continue
+        else:
+            print('Cannot find designated input directory: "{0}"'.format(self.input_dir))
+            raise SystemExit
 
 if __name__ == '__main__':
     t = ElanTranscription()
