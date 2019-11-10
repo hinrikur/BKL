@@ -242,7 +242,8 @@ def main():
     # transcription object created and file basename set
     t = ElanTranscription()
     t.file_basename = os.path.splitext(os.path.basename(args.input[0]))[0]
-
+    if t.file_basename == '':
+        t.file_basename = os.path.basename(os.path.normpath(args.input[0]))
     # checked wether nodir parameter met
     if not args.nodir:
         if args.type == 'file':
