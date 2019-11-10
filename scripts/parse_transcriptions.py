@@ -5,7 +5,7 @@ import csv
 import pympi
 from datetime import date as d
 from tokenizer import tokenize
-import nefnir
+
 
 '''
 Hinrik Hafsteinsson 2019
