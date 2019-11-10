@@ -1,3 +1,5 @@
+
+
 converted/
 myndbond/
 nefnir/
@@ -9,5 +11,10 @@ scripts/parse_eaf.py
 scripts/count_words.py
 scripts/parse_tsv.py
 
-WordFrequencyDictionary-2.pdf
+
+dot_fra_einari.024.tsv
+*.pdf
+*.docx
+*.zip
 .DS_Store
+.gitignore
